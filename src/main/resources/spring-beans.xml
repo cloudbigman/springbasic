@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+    <!--配置Department对象：通过设值注入-->
+    <bean id="department1" class="com.xzit.springboot.Department">
+         <property name="id" value="1"/>
+         <property name="name" value="计算机教研室"/>
+    </bean>
+    <!--配置Department对象：通过构造注入-->
+    <bean id="department2" class="com.xzit.springboot.Department">
+        <constructor-arg index="0" value="2" type="int"/>
+        <constructor-arg index="1" value="机电工程学院" type="java.lang.String"/>
+    </bean>
+
+    <!--配置Department对象：通过构造注入-->
+    <bean id="department" class="com.xzit.springboot.Department">
+        <constructor-arg index="0" value="2" type="int"/>
+        <constructor-arg index="1" value="信电工程学院" type="java.lang.String"/>
+    </bean>
+
+    <!--配置Teacher对象：通过设值注入-->
+    <bean id="teacher1" class="com.xzit.springboot.Teacher" autowire="byName"/>
+
+    <bean id="teacher2" class="com.xzit.springboot.Teacher"
+          p:id="3" p:name="胡局新" p:twno="xzit1007" p:department-ref="department"/>
+
+    <bean id="collectionPropertyDI" class="com.xzit.springboot.CollectionPropertyDI">
+        <!--为数组注入值-->
+        <property name="strs">
+            <list>
+                <value>徐州工程学院</value>
+                <value>信电工程学院</value>
+                <value>计算机科学与技术</value>
+            </list>
+        </property>
+        <!--为List注入值-->
+        <property name="departmentList">
+            <list>
+                <ref bean="department1"/>
+                <ref bean="department2"/>
+            </list>
+        </property>
+        <!--为Set注入值-->
+        <property name="stringSet">
+            <set>
+                <value>徐州工程学院</value>
+                <value>信电工程学院</value>
+                <value>计算机科学与技术</value>
+            </set>
+        </property>
+        <!--为Map注入值-->
+        <property name="map">
+            <map>
+                <entry key="myname" value="胡局新"/>
+                <entry key="mydepartment" value="信电工程学院"/>
+            </map>
+        </property>
+        <!--为Properties注入值-->
+        <property name="p">
+            <props>
+                <prop key="driverClassName">com.mysql.jdbc.Driver</prop>
+                <prop key="url">jdbc:mysql://localhost/xzit_xdxy</prop>
+                <prop key="username">root</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    <bean id="student" class="com.xzit.springboot.Student" init-method="init" destroy-method="des">
+        <property name="name" value="张三"></property>
+        <property name="age" value="20"></property>
+    </bean>
+    <bean class="com.xzit.springboot.MyBeanProcessor"></bean>
+
+
+</beans>
